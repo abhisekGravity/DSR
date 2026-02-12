@@ -9,7 +9,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// ===== API Key Middleware =====
 app.use((req, res, next) => {
     const apiKey = req.headers["x-api-key"];
 
