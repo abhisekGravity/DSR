@@ -23,7 +23,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// ===== Send DSR Route =====
 app.post("/send-dsr", async (req, res) => {
 
     const rows = req.body.rows;
@@ -39,7 +38,7 @@ app.post("/send-dsr", async (req, res) => {
         day: "2-digit",
         month: "short",
         year: "2-digit"
-    });
+    }).replace(/ /g, "-");
 
     const senderName = process.env.SENDER_NAME;
     const receiverName = process.env.RECEIVER_NAME;
@@ -52,8 +51,8 @@ app.post("/send-dsr", async (req, res) => {
         <tr>
             <td>${currentDate}</td>
             <td>${teamName}</td>
-            <td>${row.yesterdayCompletedWork || ""}</td>
-            <td>${row.todayPlannedWork || ""}</td>
+            <td>${row.yesterdayWork || ""}</td>
+            <td>${row.todayWork || ""}</td>
             <td>${row.blockers || ""}</td>
             <td>${row.ticketId || ""}</td>
             <td>${row.status || ""}</td>
@@ -102,7 +101,7 @@ app.post("/send-dsr", async (req, res) => {
 
         await transporter.sendMail({
             from: `"${senderName}" <${process.env.EMAIL}>`,
-            to: process.env.RECEIVER_EMAIL,
+            to: process.env.RECEIVER_EMAILS.split(","),
             subject: `DSR - ${senderName} ${currentDate}`,
             html: html
         });
@@ -122,12 +121,10 @@ app.post("/send-dsr", async (req, res) => {
     }
 });
 
-// Health Check
 app.get("/", (req, res) => {
     res.json({ status: "Secure DSR API Running" });
 });
 
-// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Secure DSR API running on port ${PORT}`);
