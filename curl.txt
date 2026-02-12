@@ -1,0 +1,25 @@
+curl -X POST https: //your-domain.com/send-dsr \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -d '{
+    "rows": [
+        {
+            "yesterdayWork": "Backed up the prod SQL data into local for Postgres",
+            "todayWork": "N/A",
+            "blockers": "N/A",
+            "ticketId": "1418",
+            "status": "DONE",
+            "eta": "",
+            "comments": ""
+        },
+        {
+            "yesterdayWork": "Backed up the prod SQL data into local for MongoDB",
+            "todayWork": "N/A",
+            "blockers": "N/A",
+            "ticketId": "1418",
+            "status": "DONE",
+            "eta": "",
+            "comments": ""
+        }
+    ]
+}'
